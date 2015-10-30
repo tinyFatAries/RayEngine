@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d358cca3-91c0-4cf6-b673-42c7a9e7f7d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{d34b9e0c-51b7-4557-9e64-c8840fd51fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\AI">
+      <UniqueIdentifier>{27e8f5ac-daf8-4e2e-b020-e9991033d450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Animation">
+      <UniqueIdentifier>{8fb8b2b8-1d29-454c-89f5-014ba7d2f9f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Camera">
+      <UniqueIdentifier>{a7557ac3-a007-40b9-8f68-0c431f5b23a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Math">
+      <UniqueIdentifier>{5dd50576-307b-4e4b-bef6-78fb36a5e3fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Engine">
+      <UniqueIdentifier>{91c7a0c6-e040-42a6-aca0-c1b51a79b50e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Tools">
+      <UniqueIdentifier>{8ae3b4ad-d2fa-44af-8ebc-c9c2315e3100}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Engine\Engine.cpp">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Engine\Engine.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

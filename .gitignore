@@ -1,3 +1,10 @@
+# Build immediate objs
+*.pdb
+*.obj
+*.tlog
+*.log
+*.idb
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
