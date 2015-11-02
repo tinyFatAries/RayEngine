@@ -41,10 +41,25 @@
     <ClCompile Include="Engine\Engine\Engine.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Engine\OpenGLRender.cpp">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
       <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine\RenderSystem.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine\OpenGLRender.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine\Singleton.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Tools\RayUtils.h">
+      <Filter>Source\Engine\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

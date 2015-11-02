@@ -2,14 +2,20 @@
 
 RayEngine::RayEngine() : m_bInitialized(false)
 {
+
 }
 
-bool RayEngine::Init()
+RayEngine::~RayEngine()
+{
+
+}
+
+bool RayEngine::Start()
 {
 	return true;
 }
 
-bool RayEngine::InitWindow()
+bool RayEngine::InitRenderSystem()
 {
 	return true;
 }

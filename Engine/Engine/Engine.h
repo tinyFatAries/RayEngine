@@ -3,10 +3,12 @@
 //=============================================================================
 
 #pragma once
+
 class RayEngine
 {
 private:
 	RayEngine();
+	~RayEngine();
 
 public:
 	static RayEngine* getInstance() 
@@ -16,8 +18,8 @@ public:
 	}
 
 
-	bool Init();
-	bool InitWindow();
+	bool Start();
+	bool InitRenderSystem();
 	void Render();
 
 private:

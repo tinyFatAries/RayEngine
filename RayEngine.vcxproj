@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\RayEngine\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <IncludePath>E:\Project\Github\RayEngine\RayEngine\ThirdParty\Include;$(SolutionDir)\RayEngine\ThirdParty\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\RayEngine\ThirdParty\Library\libglfw;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,10 +82,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h" />
+    <ClInclude Include="Engine\Engine\OpenGLRender.h" />
+    <ClInclude Include="Engine\Engine\RenderSystem.h" />
+    <ClInclude Include="Engine\Engine\Singleton.h" />
+    <ClInclude Include="Engine\Tools\RayUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

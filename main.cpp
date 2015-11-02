@@ -10,10 +10,12 @@
 #include <GLFW/glfw3.h>
 #include <GL/GL.h>
 #include <stdio.h>
+#include "Engine/Tools/RayUtils.h"
 
 int main(int argc, char* argv[])
 {
-	printf("Engine Starting...\n");
+	DEBUG_MESSAGE("Engine start", RAY_ERROR);
+
 	GLFWwindow*  window;
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	/* Initialize the library */
@@ -39,12 +41,12 @@ int main(int argc, char* argv[])
 
 	/* Must be done after glfw is initialized */
 	bool glewExperimental = GL_TRUE;
-	//GLenum res = glewInit();
-	//if (res != GLEW_OK)
-	//{
-	//	glfwTerminate();
-	//	return 1;
-	//}
+	GLenum res = glewInit();
+	if (res != GLEW_OK)
+	{
+		glfwTerminate();
+		return 1;
+	}
 
 	/*Loop until the user closes the window*/
 	while (!glfwWindowShouldClose(window))
