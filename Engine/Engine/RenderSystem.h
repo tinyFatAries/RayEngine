@@ -1,8 +1,9 @@
 //=============================================================================================
-// RenderSystem: The abstract base class of the concrete Render System like DirectX or OpenGL.
+// RenderSystem: The base class of the concrete Render System like DirectX or OpenGL.
 //=============================================================================================
 
 #pragma once
+#include "Singleton.h"
 #include <string>
 
 enum RenderType 
@@ -12,9 +13,11 @@ enum RenderType
 	OPENGL_ES 
 };
 
-class RenderSystem
+class RenderSystem : public Singleton<RenderSystem>
 {
 public:
+	RenderSystem() {}
+
 	RenderSystem(RenderType type, std::string sysName)
 		: m_RenderType(type)
 		, m_SysName(sysName)
@@ -23,10 +26,20 @@ public:
 	~RenderSystem()
 	{}
 
+protected:
+	virtual void RenderOneFrame() {}
+	//some render state settings
+	virtual void SetShader() {}
+	virtual void SetRenderQueue() {}
+	virtual void SetVertexBuffer() {}
+	virtual void SetIndexBuffer() {}
+	virtual void SetTexture() {}
+
 public:
-	virtual void StartRendering() = 0;
-	virtual void StopRendering() = 0;
-	virtual bool SetParam(int width, int height, std::string name, bool isFullSceen) = 0;
+	virtual bool InitWindow() { return true; }
+	virtual void StartRendering() {}
+	virtual void StopRendering() {}
+	virtual bool SetParam(int width, int height, std::string name, bool isFullSceen) { return true; }
 
 	const RenderType getRenderType() const
 	{
@@ -39,11 +52,9 @@ public:
 	}
 
 protected:
-	virtual bool InitWindow() = 0;
-	virtual void RenderOneFrame() = 0;
-
-protected:
 	RenderType m_RenderType;
 	std::string m_SysName;
 };
+
+
 

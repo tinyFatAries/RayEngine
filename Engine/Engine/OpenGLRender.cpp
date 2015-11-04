@@ -1,9 +1,14 @@
-#include "OpenGLRender.h"
-#include "../Tools/RayUtils.h"
-using namespace std;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <GL/GL.h>
+#include <stdio.h>
 
-/* static member initialize */
-template<> OpenGLRenderSystem* Singleton<OpenGLRenderSystem>::m_pSingleton = nullptr;
+#include "../Tools/RayUtils.h"
+#include "../Math/RayMath.h"
+#include "OpenGLRender.h"
+
+
+using namespace std;
 
 /**
 	default constructor
@@ -17,7 +22,7 @@ OpenGLRenderSystem::OpenGLRenderSystem()
 	, m_Window(nullptr)
 	, m_Monitor(nullptr)
 {
-
+	InitWindow();
 }
 
 /**
@@ -32,7 +37,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 	, m_Window(nullptr)
 	, m_Monitor(nullptr)
 {
-
+	InitWindow();
 }
 
 /*
@@ -55,10 +60,8 @@ bool OpenGLRenderSystem::InitWindow()
 
 	int Major, Minor, Rev;
 
-#ifdef DEBUG_MODE
 	glfwGetVersion(&Major, &Minor, &Rev);
-	printf("GLFW Version: %d.%d.%d initialized", Major, Minor, Rev);
-#endif
+	DEBUG_MESSAGE(RAY_MESSAGE, "GLFW Version: %d.%d.%d initialized", Major, Minor, Rev);
 
 	if (m_bFullScreen)
 	{
@@ -69,7 +72,7 @@ bool OpenGLRenderSystem::InitWindow()
 	m_Window = glfwCreateWindow(1024, 768, "Ray Engine", m_Monitor, NULL);
 	if (!m_Window)
 	{
-		DEBUG_MESSAGE("glfwCreateWindow failed, exited unexcepted!", RAY_ERROR);
+		DEBUG_MESSAGE(RAY_ERROR, "glfwCreateWindow failed, exited unexcepted!");
 		glfwTerminate();
 		return false;
 	}
@@ -81,7 +84,7 @@ bool OpenGLRenderSystem::InitWindow()
 	GLenum res = glewInit();
 	if (res != GLEW_OK)
 	{
-		DEBUG_MESSAGE("Init failed, exited unexcepted!", RAY_ERROR);
+		DEBUG_MESSAGE(RAY_ERROR, "Init failed, exited unexcepted!");
 		glfwTerminate();
 		return false;
 	}
@@ -105,8 +108,28 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 void OpenGLRenderSystem::StartRendering()
 {
+	/*Vertex Buffer*/
+	Vector Vertices[1];
+	Vertices[0].Set(0.0f, 0.0f, 0.0f);
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 
-
+	/*Loop until the user closes the window*/
+	while (!glfwWindowShouldClose(m_Window))
+	{
+		/*Render here*/
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glDrawArrays(GL_POINTS, 0, 1);
+		/* Swap front and back buffers*/
+		glfwSwapBuffers(m_Window);
+		glDisableVertexAttribArray(0);
+		/* Poll for and process events */
+		glfwPollEvents();
+	}
 }
 
 void OpenGLRenderSystem::StopRendering()

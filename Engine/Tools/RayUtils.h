@@ -12,27 +12,21 @@
 #define RAY_MESSAGE 2
 
 #ifdef DEBUG_MODE
-#define DEBUG_MESSAGE(message, type) \
+#define DEBUG_MESSAGE(type, message, ...) \
 	do { \
 		switch (type) \
 		{ \
 		case RAY_ERROR: \
-			fprintf(stderr, "[!!RayEngine ERROR!!]: file:%s, line: ", __FILE__); \
-			fprintf(stdout, message); \
-			fprintf(stderr, "\n"); \
+			fprintf(stdout, "[!!RayEngine ERROR!!]: file:%s, line: "## message ## "\n", __FILE__, ##__VA_ARGS__); \
 			break;\
 		case RAY_EXCEPTION: \
-			fprintf(stderr, "[**RayEngine EXCEPTION**]: file:%s, line:", __FILE__); \
-			fprintf(stdout, message); \
-			fprintf(stderr, "\n"); \
+			fprintf(stdout, "[**RayEngine EXCEPTION**]: file:%s, line:"## message ## "\n", __FILE__, ##__VA_ARGS__); \
 			break;\
 		case RAY_MESSAGE: \
-			fprintf(stderr, "[RayEngine]: "); \
-			fprintf(stdout, message); \
-			fprintf(stderr, "\n"); \
+			fprintf(stdout, "[RayEngine]: "## message ## "\n", ##__VA_ARGS__); \
 			break;\
 		} \
 	} while (0)
 #else
-#define DEBUG_MESSAGE(message, type)
+#define DEBUG_MESSAGE(type, message, ...)
 #endif

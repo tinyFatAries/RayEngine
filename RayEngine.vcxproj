@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Project\Github\RayEngine\RayEngine\ThirdParty\Include;$(SolutionDir)\RayEngine\ThirdParty\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\RayEngine\ThirdParty\Library\libglfw;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\ThirdParty\Library\;$(ProjectDir)\ThirdParty\Library\libglfw;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -55,11 +55,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,13 +84,19 @@
   <ItemGroup>
     <ClCompile Include="Engine\Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
+    <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
+    <ClCompile Include="Engine\Math\RayMath.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Config\RayConifg.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />
     <ClInclude Include="Engine\Engine\OpenGLRender.h" />
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Engine\Singleton.h" />
+    <ClInclude Include="Engine\Math\MathUtility.h" />
+    <ClInclude Include="Engine\Math\RayMath.h" />
+    <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Tools\RayUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
