@@ -4,6 +4,12 @@
 *.tlog
 *.log
 *.idb
+*.exe
+*.suo
+*.sdf
+*.ilk
+*.opensdf
+*.dll
 
 # Windows image file caches
 Thumbs.db
