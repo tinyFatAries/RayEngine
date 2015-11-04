@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)\ThirdParty\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\ThirdParty\Library\;$(ProjectDir)\ThirdParty\Library\libglfw;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\ThirdParty\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;CORE_DB_Magick++_.lib;glfw3.lib;glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,6 +86,7 @@
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Math\RayMath.cpp" />
+    <ClCompile Include="Engine\Math\Vector.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

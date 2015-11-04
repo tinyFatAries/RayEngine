@@ -1,10 +1,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <GL/GL.h>
 #include <stdio.h>
 
 #include "../Tools/RayUtils.h"
-#include "../Math/RayMath.h"
+#include "../Math/Vector.h"
 #include "OpenGLRender.h"
 
 
@@ -108,25 +107,34 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 void OpenGLRenderSystem::StartRendering()
 {
-	/*Vertex Buffer*/
-	Vector Vertices[1];
-	Vertices[0].Set(0.0f, 0.0f, 0.0f);
 	GLuint VBO;
+	/*Vertex Buffer*/
+	Vector Vertices[3];
+	Vertices[0] = Vector(-1.0f, -1.0f, 0.0f);
+	Vertices[1] = Vector(1.0f, -1.0f, 0.0f);
+	Vertices[2] = Vector(0.0f, 1.0f, 0.0f);
+
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 
+
 	/*Loop until the user closes the window*/
 	while (!glfwWindowShouldClose(m_Window))
 	{
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		/*Render here*/
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		glDrawArrays(GL_POINTS, 0, 1);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+		glDisableVertexAttribArray(0);
+
 		/* Swap front and back buffers*/
 		glfwSwapBuffers(m_Window);
-		glDisableVertexAttribArray(0);
+
 		/* Poll for and process events */
 		glfwPollEvents();
 	}
