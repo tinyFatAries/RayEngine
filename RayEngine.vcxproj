@@ -56,6 +56,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -85,6 +86,7 @@
     <ClCompile Include="Engine\Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
+    <ClCompile Include="Engine\Engine\Shader.cpp" />
     <ClCompile Include="Engine\Math\RayMath.cpp" />
     <ClCompile Include="Engine\Math\Vector.cpp" />
     <ClCompile Include="main.cpp" />
@@ -94,11 +96,16 @@
     <ClInclude Include="Engine\Engine\Engine.h" />
     <ClInclude Include="Engine\Engine\OpenGLRender.h" />
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
+    <ClInclude Include="Engine\Engine\Shader.h" />
     <ClInclude Include="Engine\Engine\Singleton.h" />
     <ClInclude Include="Engine\Math\MathUtility.h" />
     <ClInclude Include="Engine\Math\RayMath.h" />
     <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Tools\RayUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\basic.fs" />
+    <None Include="Shaders\basic.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

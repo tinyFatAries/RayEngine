@@ -4,6 +4,9 @@
 
 #pragma once
 
+class RenderSystem;
+class ShaderManager;
+	
 class RayEngine
 {
 private:
@@ -24,6 +27,8 @@ public:
 
 private:
 	bool m_bInitialized;
+	RenderSystem* m_RenderSystem;
+	ShaderManager* m_ShaderManager;
 
 };
 

@@ -4,6 +4,8 @@
 
 #pragma once
 #include "RenderSystem.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 class OpenGLRenderSystem : public RenderSystem
 {

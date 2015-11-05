@@ -30,3 +30,16 @@
 #else
 #define DEBUG_MESSAGE(type, message, ...)
 #endif
+
+
+#ifdef DEBUG_MODE
+#define ASSERT(expr) \
+	if (expr) {} \
+	else \
+	{ \
+		DEBUG_MESSAGE(RAY_ERROR, "asserion failed"); \
+		exit(1); \
+	}
+#else
+#define ASSERT(expr)
+#endif

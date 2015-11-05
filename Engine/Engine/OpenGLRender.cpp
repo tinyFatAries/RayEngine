@@ -1,12 +1,9 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <stdio.h>
-
 #include "../Tools/RayUtils.h"
 #include "../Math/Vector.h"
 #include "OpenGLRender.h"
+#include "Shader.h"
 
-
+#include <stdio.h>
 using namespace std;
 
 /**
@@ -118,12 +115,27 @@ void OpenGLRenderSystem::StartRendering()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 
+	string shaderName("basic");
+	ShaderManager::getInstancePtr()->CreateEffect(shaderName);
+	ShaderManager::getInstancePtr()->AddVertexShader(shaderName);
+	ShaderManager::getInstancePtr()->AddPixelShader(shaderName);
+	ShaderManager::getInstancePtr()->SetVS(shaderName, shaderName);
+	ShaderManager::getInstancePtr()->SetPS(shaderName, shaderName);
+	ShaderManager::getInstancePtr()->LinkShaders(shaderName);
+	ShaderManager::getInstancePtr()->EnableShader(shaderName);
 
 	/*Loop until the user closes the window*/
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		static float scale = 0.0f;
+
+		scale += 0.001f;
+
+		GLuint gScaleLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gScale");
+		glUniform1f(gScaleLocaltion, sin(scale));
+		
 		/*Render here*/
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);

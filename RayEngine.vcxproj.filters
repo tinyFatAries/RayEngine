@@ -9,32 +9,35 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Source">
+    <Filter Include="Source">
       <UniqueIdentifier>{d358cca3-91c0-4cf6-b673-42c7a9e7f7d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine">
+    <Filter Include="Source\Engine">
       <UniqueIdentifier>{d34b9e0c-51b7-4557-9e64-c8840fd51fbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\AI">
+    <Filter Include="Source\Engine\AI">
       <UniqueIdentifier>{27e8f5ac-daf8-4e2e-b020-e9991033d450}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Animation">
+    <Filter Include="Source\Engine\Animation">
       <UniqueIdentifier>{8fb8b2b8-1d29-454c-89f5-014ba7d2f9f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Math">
+    <Filter Include="Source\Engine\Math">
       <UniqueIdentifier>{5dd50576-307b-4e4b-bef6-78fb36a5e3fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Engine">
+    <Filter Include="Source\Engine\Engine">
       <UniqueIdentifier>{91c7a0c6-e040-42a6-aca0-c1b51a79b50e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Tools">
+    <Filter Include="Source\Engine\Tools">
       <UniqueIdentifier>{8ae3b4ad-d2fa-44af-8ebc-c9c2315e3100}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Camera">
+    <Filter Include="Source\Engine\Camera">
       <UniqueIdentifier>{7c6961a7-5550-494b-a7e1-716c8757fed5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source\Engine\Config">
+    <Filter Include="Source\Engine\Config">
       <UniqueIdentifier>{c09028e5-78ab-489f-b03a-64db81b17acc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{68b71e02-84a1-4f04-8357-9938d1acd87e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,48 +45,62 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Engine\Engine.cpp">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Engine\RenderSystem.cpp">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\RayMath.cpp">
-      <Filter>Resource Files\Source\Engine\Math</Filter>
+      <Filter>Source\Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector.cpp">
-      <Filter>Resource Files\Source\Engine\Math</Filter>
+      <Filter>Source\Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Engine\Shader.cpp">
+      <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine\RenderSystem.h">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine\OpenGLRender.h">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine\Singleton.h">
-      <Filter>Resource Files\Source\Engine\Engine</Filter>
+      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Tools\RayUtils.h">
-      <Filter>Resource Files\Source\Engine\Tools</Filter>
+      <Filter>Source\Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector.h">
-      <Filter>Resource Files\Source\Engine\Math</Filter>
+      <Filter>Source\Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Config\RayConifg.h">
-      <Filter>Resource Files\Source\Engine\Config</Filter>
+      <Filter>Source\Engine\Config</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\MathUtility.h">
-      <Filter>Resource Files\Source\Engine\Math</Filter>
+      <Filter>Source\Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\RayMath.h">
-      <Filter>Resource Files\Source\Engine\Math</Filter>
+      <Filter>Source\Engine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Engine\Shader.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\basic.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\basic.vs">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
