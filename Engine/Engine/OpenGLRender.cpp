@@ -1,7 +1,7 @@
 #include "../Tools/RayUtils.h"
-#include "../Math/Vector.h"
 #include "OpenGLRender.h"
 #include "Shader.h"
+#include "../Math/RayMath.h"
 
 #include <stdio.h>
 using namespace std;
@@ -133,8 +133,15 @@ void OpenGLRenderSystem::StartRendering()
 
 		scale += 0.001f;
 
-		GLuint gScaleLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gScale");
-		glUniform1f(gScaleLocaltion, sin(scale));
+		Matrix World;
+		
+		World.M[0][0] = 1.0f; World.M[0][1] = 0.0f; World.M[0][2] = 0.0f; World.M[0][3] = 0.0f;
+		World.M[1][0] = 0.0f; World.M[1][1] = 1.0f; World.M[1][2] = 0.0f; World.M[1][3] = 0.0f;
+		World.M[2][0] = 0.0f; World.M[2][1] = 0.0f; World.M[2][2] = 1.0f; World.M[2][3] = 0.0f;
+		World.M[3][0] = 0.0f; World.M[3][1] = sinf(scale); World.M[3][2] = 0.0f; World.M[3][3] = 1.0f;
+
+		GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
+		glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
 		
 		/*Render here*/
 		glEnableVertexAttribArray(0);

@@ -88,7 +88,6 @@
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Engine\Shader.cpp" />
     <ClCompile Include="Engine\Math\RayMath.cpp" />
-    <ClCompile Include="Engine\Math\Vector.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +97,16 @@
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Engine\Shader.h" />
     <ClInclude Include="Engine\Engine\Singleton.h" />
+    <ClInclude Include="Engine\Math\Axis.h" />
     <ClInclude Include="Engine\Math\MathUtility.h" />
+    <ClInclude Include="Engine\Math\Matrix.h" />
+    <ClInclude Include="Engine\Math\NumbericLimits.h" />
+    <ClInclude Include="Engine\Math\Quaternion.h" />
     <ClInclude Include="Engine\Math\RayMath.h" />
+    <ClInclude Include="Engine\Math\RayMathDirectX.h" />
+    <ClInclude Include="Engine\Math\Rotator.h" />
     <ClInclude Include="Engine\Math\Vector.h" />
+    <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Tools\RayUtils.h" />
   </ItemGroup>
   <ItemGroup>

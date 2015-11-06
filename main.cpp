@@ -7,9 +7,14 @@
 */
 #include "Engine/Tools/RayUtils.h"
 #include "Engine/Engine/Engine.h"
+#include "Engine/Math/RayMath.h"
 
 int main(int argc, char* argv[])
 {
 	RayEngine::getInstance()->Start();
+	Quaternion qaut(1,1,1,1);
+	Vector4 vec4(1,1,1,1);
+	Vector vec3(1, 1, 1);
+	Matrix matrix;
 	return 0;
 }

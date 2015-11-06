@@ -56,9 +56,6 @@
     <ClCompile Include="Engine\Math\RayMath.cpp">
       <Filter>Source\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Vector.cpp">
-      <Filter>Source\Engine\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Engine\Shader.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
@@ -93,6 +90,27 @@
     </ClInclude>
     <ClInclude Include="Engine\Engine\Shader.h">
       <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\RayMathDirectX.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\NumbericLimits.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Quaternion.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector4.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Axis.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Rotator.h">
+      <Filter>Source\Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
