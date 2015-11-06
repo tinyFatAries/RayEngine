@@ -12,6 +12,7 @@ ShaderManager::ShaderManager()
 	, m_CurrentPS(0)
 	, m_CurrentGS(0)
 {
+	DEBUG_MESSAGE(RAY_MESSAGE, "ShaderManager Start...");
 }
 
 ShaderManager::~ShaderManager()
@@ -45,6 +46,8 @@ ShaderManager::~ShaderManager()
 	{
 		glDeleteShader(itr.second);
 	}
+
+	DEBUG_MESSAGE(RAY_MESSAGE, "Unload ShaderManager...");
 }
 
 void ShaderManager::CreateEffect(std::string& progName)

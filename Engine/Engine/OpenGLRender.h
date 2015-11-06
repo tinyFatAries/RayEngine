@@ -4,6 +4,7 @@
 
 #pragma once
 #include "RenderSystem.h"
+#include "RayTimer.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -21,6 +22,7 @@ public:
 
 protected:
 	virtual void RenderOneFrame();
+	virtual void CalculateFrameStats();
 
 private:
 	bool m_bInitialized;
@@ -31,5 +33,9 @@ private:
 	GLFWwindow* m_Window;
 	GLFWmonitor* m_Monitor;
 
+	bool m_SysPaused;
+	RayTimer m_Timer;
+
+	GLuint VBO;
 };
 

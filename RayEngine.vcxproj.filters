@@ -59,6 +59,9 @@
     <ClCompile Include="Engine\Engine\Shader.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Engine\RayTimer.cpp">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Rotator.h">
       <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine\RayTimer.h">
+      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

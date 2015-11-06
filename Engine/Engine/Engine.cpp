@@ -15,15 +15,14 @@ RayEngine::RayEngine()
 	DEBUG_MESSAGE(RAY_MESSAGE, "RayEngine Start...");
 
 	m_RenderSystem = new OpenGLRenderSystem(1024, 768, "Ray Engine", false);
-	DEBUG_MESSAGE(RAY_MESSAGE, "RenderSystem Start...");
 
 	m_ShaderManager = new ShaderManager();
-	DEBUG_MESSAGE(RAY_MESSAGE, "ShaderManager Start...");
 }
 
 RayEngine::~RayEngine()
 {
-
+	R_DELETE(m_ShaderManager);
+	R_DELETE(m_RenderSystem);
 }
 
 bool RayEngine::Start()

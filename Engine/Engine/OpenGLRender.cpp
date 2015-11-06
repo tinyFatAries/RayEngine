@@ -17,7 +17,9 @@ OpenGLRenderSystem::OpenGLRenderSystem()
 	, m_Height(600)
 	, m_Window(nullptr)
 	, m_Monitor(nullptr)
+	, m_SysPaused(false)
 {
+	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start...");
 	InitWindow();
 }
 
@@ -33,6 +35,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 	, m_Window(nullptr)
 	, m_Monitor(nullptr)
 {
+	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start...");
 	InitWindow();
 }
 
@@ -41,7 +44,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 */
 OpenGLRenderSystem::~OpenGLRenderSystem()
 {
-
+	DEBUG_MESSAGE(RAY_MESSAGE, "Unload OpenGL RenderSystem...");
 }
 
 
@@ -65,7 +68,7 @@ bool OpenGLRenderSystem::InitWindow()
 	}
 
 	/* Create a windowed mode window and its OpenGL context */
-	m_Window = glfwCreateWindow(1024, 768, "Ray Engine", m_Monitor, NULL);
+	m_Window = glfwCreateWindow(1366, 768, "Ray Engine", m_Monitor, NULL);
 	if (!m_Window)
 	{
 		DEBUG_MESSAGE(RAY_ERROR, "glfwCreateWindow failed, exited unexcepted!");
@@ -99,12 +102,39 @@ bool OpenGLRenderSystem::SetParam(int width, int height, std::string name, bool 
 
 void OpenGLRenderSystem::RenderOneFrame()
 {
+	glClear(GL_COLOR_BUFFER_BIT);
 
+	static float scale = 0.0f;
+
+	scale += 0.001f;
+
+	Matrix World;
+	
+	World.M[0][0] = 1.0f; World.M[0][1] = 0.0f; World.M[0][2] = 0.0f; World.M[0][3] = 0.0f;
+	World.M[1][0] = 0.0f; World.M[1][1] = 1.0f; World.M[1][2] = 0.0f; World.M[1][3] = 0.0f;
+	World.M[2][0] = 0.0f; World.M[2][1] = 0.0f; World.M[2][2] = 1.0f; World.M[2][3] = 0.0f;
+	World.M[3][0] = cosf(scale); World.M[3][1] = sinf(scale); World.M[3][2] = 0.0f; World.M[3][3] = 1.0f;
+
+	GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
+	glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
+	
+	/*Render here*/
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	
+	glDisableVertexAttribArray(0);
+
+	/* Swap front and back buffers*/
+	glfwSwapBuffers(m_Window);
+
+	/* Poll for and process events */
+	glfwPollEvents();
 }
 
 void OpenGLRenderSystem::StartRendering()
 {
-	GLuint VBO;
 	/*Vertex Buffer*/
 	Vector Vertices[3];
 	Vertices[0] = Vector(-1.0f, -1.0f, 0.0f);
@@ -124,42 +154,51 @@ void OpenGLRenderSystem::StartRendering()
 	ShaderManager::getInstancePtr()->LinkShaders(shaderName);
 	ShaderManager::getInstancePtr()->EnableShader(shaderName);
 
+	m_Timer.Reset();
+
 	/*Loop until the user closes the window*/
 	while (!glfwWindowShouldClose(m_Window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		m_Timer.Tick();
 
-		static float scale = 0.0f;
-
-		scale += 0.001f;
-
-		Matrix World;
-		
-		World.M[0][0] = 1.0f; World.M[0][1] = 0.0f; World.M[0][2] = 0.0f; World.M[0][3] = 0.0f;
-		World.M[1][0] = 0.0f; World.M[1][1] = 1.0f; World.M[1][2] = 0.0f; World.M[1][3] = 0.0f;
-		World.M[2][0] = 0.0f; World.M[2][1] = 0.0f; World.M[2][2] = 1.0f; World.M[2][3] = 0.0f;
-		World.M[3][0] = 0.0f; World.M[3][1] = sinf(scale); World.M[3][2] = 0.0f; World.M[3][3] = 1.0f;
-
-		GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
-		glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
-		
-		/*Render here*/
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		
-		glDisableVertexAttribArray(0);
-
-		/* Swap front and back buffers*/
-		glfwSwapBuffers(m_Window);
-
-		/* Poll for and process events */
-		glfwPollEvents();
+		if (!m_SysPaused)
+		{
+			CalculateFrameStats();
+			RenderOneFrame();
+		}
+		else
+		{
+			;
+		}
 	}
 }
 
 void OpenGLRenderSystem::StopRendering()
 {
 
+}
+
+void OpenGLRenderSystem::CalculateFrameStats()
+{
+	// Code computes the average frames per second, and also the 
+	// average time it takes to render one frame.  These stats 
+	// are appended to the window caption bar.
+
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if ((m_Timer.TotalTime() - timeElapsed) >= 1.0f)
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		printf("FPS %.2f\n", fps);
+	
+		// Reset for next average.
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
 }

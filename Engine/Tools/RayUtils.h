@@ -43,3 +43,11 @@
 #else
 #define ASSERT(expr)
 #endif
+
+
+#define R_DELETE(obj) \
+	do \
+	{ \
+		delete obj; \
+		obj = nullptr; \
+	} while (0);

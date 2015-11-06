@@ -23,7 +23,7 @@ public:
 		, m_SysName(sysName)
 	{}
 	
-	~RenderSystem()
+	virtual ~RenderSystem()
 	{}
 
 protected:

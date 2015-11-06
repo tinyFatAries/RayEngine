@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
+    <ClCompile Include="Engine\Engine\RayTimer.cpp" />
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Engine\Shader.cpp" />
     <ClCompile Include="Engine\Math\RayMath.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="Engine\Config\RayConifg.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />
     <ClInclude Include="Engine\Engine\OpenGLRender.h" />
+    <ClInclude Include="Engine\Engine\RayTimer.h" />
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Engine\Shader.h" />
     <ClInclude Include="Engine\Engine\Singleton.h" />
