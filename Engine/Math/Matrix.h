@@ -10,13 +10,15 @@
 #include "Vector4.h"
 #include "RayMathDirectX.h"
 #include "../Tools/RayUtils.h"
+#include "../Config/WindowPlatform.h"
+
 
 struct Matrix
 {
 public:
 	union
 	{
-		float M[4][4];
+		MS_ALIGN(16) float M[4][4];
 	};
 
 	// Identity Matrix

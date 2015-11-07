@@ -118,6 +118,9 @@
     <ClInclude Include="Engine\Engine\RayTimer.h">
       <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Config\WindowPlatform.h">
+      <Filter>Source\Engine\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\basic.fs">

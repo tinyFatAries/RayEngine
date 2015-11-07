@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Config\RayConifg.h" />
+    <ClInclude Include="Engine\Config\WindowPlatform.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />
     <ClInclude Include="Engine\Engine\OpenGLRender.h" />
     <ClInclude Include="Engine\Engine\RayTimer.h" />

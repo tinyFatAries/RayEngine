@@ -5,10 +5,11 @@
 #pragma once
 #include "Vector.h"
 #include "../Config/RayConifg.h"
+#include "../Config/WindowPlatform.h"
 /**
 * A 4D homogeneous vector, 4x1 FLOATs, 16-byte aligned.
 */
-struct Vector4
+MS_ALIGN(16) struct Vector4
 {
 public:
 

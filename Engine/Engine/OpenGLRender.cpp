@@ -6,6 +6,11 @@
 #include <stdio.h>
 using namespace std;
 
+struct Vertex
+{
+	Vector positon;
+	Vector4 Color;
+};
 /**
 	default constructor
 **/
@@ -34,8 +39,9 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 	, m_Height(height)
 	, m_Window(nullptr)
 	, m_Monitor(nullptr)
+	, m_SysPaused(false)
 {
-	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start...");
+	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start Resolution %d x %d...", width, height);
 	InitWindow();
 }
 
@@ -68,7 +74,7 @@ bool OpenGLRenderSystem::InitWindow()
 	}
 
 	/* Create a windowed mode window and its OpenGL context */
-	m_Window = glfwCreateWindow(1366, 768, "Ray Engine", m_Monitor, NULL);
+	m_Window = glfwCreateWindow(700, 700, "Ray Engine", m_Monitor, NULL);
 	if (!m_Window)
 	{
 		DEBUG_MESSAGE(RAY_ERROR, "glfwCreateWindow failed, exited unexcepted!");
@@ -108,23 +114,41 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 	scale += 0.001f;
 
-	Matrix World;
+	Matrix World, World2, World3;
 	
-	World.M[0][0] = 1.0f; World.M[0][1] = 0.0f; World.M[0][2] = 0.0f; World.M[0][3] = 0.0f;
-	World.M[1][0] = 0.0f; World.M[1][1] = 1.0f; World.M[1][2] = 0.0f; World.M[1][3] = 0.0f;
-	World.M[2][0] = 0.0f; World.M[2][1] = 0.0f; World.M[2][2] = 1.0f; World.M[2][3] = 0.0f;
-	World.M[3][0] = cosf(scale); World.M[3][1] = sinf(scale); World.M[3][2] = 0.0f; World.M[3][3] = 1.0f;
+	World.M[0][0] = 1.0f;		  World.M[0][1] = 0.0f;		    World.M[0][2] = 0.0f;		 World.M[0][3] = 0.0f;
+	World.M[1][0] = 0.0f;		  World.M[1][1] =cosf(scale);   World.M[1][2] =sinf(scale) ; World.M[1][3] = 0.0f;
+	World.M[2][0] = 0.0f;		  World.M[2][1] = -sinf(scale); World.M[2][2] = cosf(scale); World.M[2][3] = 0.0f;
+	World.M[3][0] = 0.0f;		  World.M[3][1] = 0.0f;		    World.M[3][2] = 0.0f;		 World.M[3][3] = 2.0f;
+
+	World2.M[0][0] = cosf(scale);  World2.M[0][1] = 0.0f; World2.M[0][2] = -sinf(scale); World2.M[0][3] = 0.0f;
+	World2.M[1][0] = 0.0f;	       World2.M[1][1] = 1.0f; World2.M[1][2] = 0.0f;		 World2.M[1][3] = 0.0f;
+	World2.M[2][0] = sinf(scale);  World2.M[2][1] = 0.0f; World2.M[2][2] = cosf(scale);  World2.M[2][3] = 0.0f;
+	World2.M[3][0] = 0.0f;		   World2.M[3][1] = 0.0f; World2.M[3][2] = 0.0f;		 World2.M[3][3] = 2.0f;
+
+	World3.M[0][0] = cosf(scale);  World3.M[0][1] = sinf(scale);  World3.M[0][2] = 0.0f;  World3.M[0][3] = 0.0f;
+	World3.M[1][0] = -sinf(scale);  World3.M[1][1] = cosf(scale); World3.M[1][2] = 0.0f;  World3.M[1][3] = 0.0f;
+	World3.M[2][0] = 0.0f;		   World3.M[2][1] = 0.0f;		  World3.M[2][2] = 1.0f;  World3.M[2][3] = 0.0f;
+	World3.M[3][0] = 0.0f;		   World3.M[3][1] = 0.0f;		  World3.M[3][2] = 0.0f;  World3.M[3][3] = 2.0f;
+
+	World *= World2*World3;
 
 	GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
 	glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
 	
 	/*Render here*/
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	
 	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 
 	/* Swap front and back buffers*/
 	glfwSwapBuffers(m_Window);
@@ -135,24 +159,11 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 void OpenGLRenderSystem::StartRendering()
 {
-	/*Vertex Buffer*/
-	Vector Vertices[3];
-	Vertices[0] = Vector(-1.0f, -1.0f, 0.0f);
-	Vertices[1] = Vector(1.0f, -1.0f, 0.0f);
-	Vertices[2] = Vector(0.0f, 1.0f, 0.0f);
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-
-	string shaderName("basic");
-	ShaderManager::getInstancePtr()->CreateEffect(shaderName);
-	ShaderManager::getInstancePtr()->AddVertexShader(shaderName);
-	ShaderManager::getInstancePtr()->AddPixelShader(shaderName);
-	ShaderManager::getInstancePtr()->SetVS(shaderName, shaderName);
-	ShaderManager::getInstancePtr()->SetPS(shaderName, shaderName);
-	ShaderManager::getInstancePtr()->LinkShaders(shaderName);
-	ShaderManager::getInstancePtr()->EnableShader(shaderName);
+	SetupVertexBuffer();
+	SetupIndexBuffer();
+	SetupShaders();
+	SetupTexure();
+	SetupLights();
 
 	m_Timer.Reset();
 
@@ -201,4 +212,76 @@ void OpenGLRenderSystem::CalculateFrameStats()
 		frameCnt = 0;
 		timeElapsed += 1.0f;
 	}
+}
+
+void OpenGLRenderSystem::SetupVertexBuffer()
+{
+	/*Vertex Buffer*/
+	Vertex Vertices[8];
+	Vertices[0] = { Vector(-1.0f, -1.0f, -1.f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) };
+	Vertices[1] = { Vector(-1.0f, 1.0f, -1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f) };
+	Vertices[2] = { Vector(1.0f, 1.0f, -1.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f) };
+	Vertices[3] = { Vector(1.0f, -1.0f, -1.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f) };
+	Vertices[4] = { Vector(-1.0f, -1.0f, 1.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f) };
+	Vertices[5] = { Vector(-1.0f, 1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) };
+	Vertices[6] = { Vector(1.0f, 1.0f, 1.0f), Vector4(0.0f, 1.0f, 1.0f, 1.0f) };
+	Vertices[7] = { Vector(1.0f, -1.0f, 1.0f), Vector4(1.0f, 0.0f, 1.0f, 1.0f) };
+
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+}
+
+
+void OpenGLRenderSystem::SetupIndexBuffer()
+{
+	uint32 Indices[] = {
+		//front face
+		0, 1, 2,
+		0, 2, 3,
+		//back face
+		4, 6, 5,
+		4, 7, 6,
+		//left face
+		4, 5, 1,
+		4, 1, 0,
+		//right face
+		3, 2, 6,
+		3, 6, 7,
+		//top face
+		1, 5, 6,
+		1, 6, 2,
+		//bottom face
+		4, 0, 3,
+		4, 3, 7
+	};
+
+	glGenBuffers(1, &IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+}
+
+
+void OpenGLRenderSystem::SetupTexure()
+{
+
+}
+
+
+void OpenGLRenderSystem::SetupLights()
+{
+
+}
+
+void OpenGLRenderSystem::SetupShaders()
+{
+	ShaderManager* shaderManager = ShaderManager::getInstancePtr();
+	string shaderName("basic");
+	shaderManager->CreateEffect(shaderName);
+	shaderManager->AddVertexShader(shaderName);
+	shaderManager->AddPixelShader(shaderName);
+	shaderManager->SetVS(shaderName, shaderName);
+	shaderManager->SetPS(shaderName, shaderName);
+	shaderManager->LinkShaders(shaderName);
+	shaderManager->EnableShader(shaderName);
 }

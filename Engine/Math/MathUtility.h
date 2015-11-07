@@ -8,6 +8,7 @@
 Definitions.
 -----------------------------------------------------------------------------*/
 #include "../Config/RayConifg.h"
+#include "../Config/WindowPlatform.h"
 #include "NumbericLimits.h"
 
 #include <math.h>

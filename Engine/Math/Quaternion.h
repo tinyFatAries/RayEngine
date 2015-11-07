@@ -5,6 +5,7 @@
 #pragma once
 #include "MathUtility.h"
 #include "../Config/RayConifg.h"
+#include "../Config/WindowPlatform.h"
 #include "../Tools/RayUtils.h"
 #include "Axis.h"
 #include "Matrix.h"
@@ -22,7 +23,7 @@
 * Example: LocalToWorld = (LocalToWorld * DeltaRotation) will change rotation in local space by DeltaRotation.
 * Example: LocalToWorld = (DeltaRotation * LocalToWorld) will change rotation in world space by DeltaRotation.
 */
-struct Quaternion
+MS_ALIGN(16) struct Quaternion
 {
 public:
 

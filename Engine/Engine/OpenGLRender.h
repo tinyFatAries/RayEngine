@@ -23,6 +23,12 @@ public:
 protected:
 	virtual void RenderOneFrame();
 	virtual void CalculateFrameStats();
+	virtual void SetupShaders();
+	virtual void SetupVertexBuffer();
+	virtual void SetupIndexBuffer();
+	virtual void SetupTexure();
+	virtual void SetupLights();
+
 
 private:
 	bool m_bInitialized;
@@ -36,6 +42,6 @@ private:
 	bool m_SysPaused;
 	RayTimer m_Timer;
 
-	GLuint VBO;
+	GLuint VBO, IBO;
 };
 
