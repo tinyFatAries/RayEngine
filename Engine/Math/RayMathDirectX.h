@@ -503,10 +503,11 @@ FORCEINLINE float VectorGetComponent(VectorRegister Vec, uint32 ComponentIndex)
 FORCEINLINE void VectorMatrixMultiply(Matrix* Result, const Matrix* Matrix1, const Matrix* Matrix2)
 {
 	using namespace DirectX;
-	XMMATRIX	XMatrix1 = XMLoadFloat4x4A((const XMFLOAT4X4A*)(Matrix1));
-	XMMATRIX	XMatrix2 = XMLoadFloat4x4A((const XMFLOAT4X4A*)(Matrix2));
+	XMMATRIX	XMatrix1 = XMLoadFloat4x4((const XMFLOAT4X4*)(Matrix1));
+	XMMATRIX	XMatrix2 = XMLoadFloat4x4((const XMFLOAT4X4*)(Matrix2));
 	XMMATRIX	XMatrixR = XMMatrixMultiply(XMatrix1, XMatrix2);
-	XMStoreFloat4x4A((XMFLOAT4X4A*)(Result), XMatrixR);
+	
+	XMStoreFloat4x4((XMFLOAT4X4*)(Result), XMatrixR);
 }
 
 /**
@@ -518,9 +519,9 @@ FORCEINLINE void VectorMatrixMultiply(Matrix* Result, const Matrix* Matrix1, con
 FORCEINLINE void VectorMatrixInverse(Matrix* DstMatrix, const Matrix* SrcMatrix)
 {
 	using namespace DirectX;
-	XMMATRIX XMSrcMatrix = XMLoadFloat4x4A((const XMFLOAT4X4A*)(SrcMatrix));
+	XMMATRIX XMSrcMatrix = XMLoadFloat4x4((const XMFLOAT4X4*)(SrcMatrix));
 	XMMATRIX XMDstMatrix = XMMatrixInverse(nullptr, XMSrcMatrix);
-	XMStoreFloat4x4A((XMFLOAT4X4A*)(DstMatrix), XMDstMatrix);
+	XMStoreFloat4x4((XMFLOAT4X4*)(DstMatrix), XMDstMatrix);
 }
 
 /**
@@ -533,7 +534,7 @@ FORCEINLINE void VectorMatrixInverse(Matrix* DstMatrix, const Matrix* SrcMatrix)
 FORCEINLINE VectorRegister VectorTransformVector(const VectorRegister&  VecP, const Matrix* MatrixM)
 {
 	using namespace DirectX;
-	XMMATRIX M1 = XMLoadFloat4x4A((const XMFLOAT4X4A*)(MatrixM));
+	XMMATRIX M1 = XMLoadFloat4x4((const XMFLOAT4X4*)(MatrixM));
 	return XMVector4Transform(VecP, M1);
 }
 
@@ -702,10 +703,10 @@ FORCEINLINE VectorRegister VectorQuaternionMultiply2(const VectorRegister& Quat1
 */
 FORCEINLINE void VectorQuaternionMultiply(Quaternion *Result, const Quaternion* Quat1, const Quaternion* Quat2)
 {
-	VectorRegister XMQuat1 = VectorLoadAligned(Quat1);
-	VectorRegister XMQuat2 = VectorLoadAligned(Quat2);
+	VectorRegister XMQuat1 = VectorLoad(Quat1);
+	VectorRegister XMQuat2 = VectorLoad(Quat2);
 	VectorRegister XMResult = VectorQuaternionMultiply2(XMQuat1, XMQuat2);
-	VectorStoreAligned(XMResult, Result);
+	VectorStore(XMResult, Result);
 }
 
 /**

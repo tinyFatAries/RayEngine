@@ -62,6 +62,9 @@
     <ClCompile Include="Engine\Engine\RayTimer.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Camera\Camera.cpp">
+      <Filter>Source\Engine\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Config\WindowPlatform.h">
       <Filter>Source\Engine\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Camera.h">
+      <Filter>Source\Engine\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

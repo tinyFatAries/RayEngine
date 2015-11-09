@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="Engine\Engine\RayTimer.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Config\RayConifg.h" />
     <ClInclude Include="Engine\Config\WindowPlatform.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />

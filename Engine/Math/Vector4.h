@@ -9,7 +9,7 @@
 /**
 * A 4D homogeneous vector, 4x1 FLOATs, 16-byte aligned.
 */
-MS_ALIGN(16) struct Vector4
+struct Vector4
 {
 public:
 

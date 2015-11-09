@@ -43,6 +43,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 {
 	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start Resolution %d x %d...", width, height);
 	InitWindow();
+	m_Camera = new Camera();
 }
 
 /*
@@ -50,6 +51,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 */
 OpenGLRenderSystem::~OpenGLRenderSystem()
 {
+	R_DELETE(m_Camera);
 	DEBUG_MESSAGE(RAY_MESSAGE, "Unload OpenGL RenderSystem...");
 }
 
@@ -74,7 +76,7 @@ bool OpenGLRenderSystem::InitWindow()
 	}
 
 	/* Create a windowed mode window and its OpenGL context */
-	m_Window = glfwCreateWindow(700, 700, "Ray Engine", m_Monitor, NULL);
+	m_Window = glfwCreateWindow(m_Width, m_Height, "Ray Engine", m_Monitor, NULL);
 	if (!m_Window)
 	{
 		DEBUG_MESSAGE(RAY_ERROR, "glfwCreateWindow failed, exited unexcepted!");
@@ -112,7 +114,7 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 	static float scale = 0.0f;
 
-	scale += 0.001f;
+	scale += 0.003f;
 
 	Matrix World, World2, World3;
 	
@@ -124,14 +126,20 @@ void OpenGLRenderSystem::RenderOneFrame()
 	World2.M[0][0] = cosf(scale);  World2.M[0][1] = 0.0f; World2.M[0][2] = -sinf(scale); World2.M[0][3] = 0.0f;
 	World2.M[1][0] = 0.0f;	       World2.M[1][1] = 1.0f; World2.M[1][2] = 0.0f;		 World2.M[1][3] = 0.0f;
 	World2.M[2][0] = sinf(scale);  World2.M[2][1] = 0.0f; World2.M[2][2] = cosf(scale);  World2.M[2][3] = 0.0f;
-	World2.M[3][0] = 0.0f;		   World2.M[3][1] = 0.0f; World2.M[3][2] = 0.0f;		 World2.M[3][3] = 2.0f;
+	World2.M[3][0] = 1.0f;		   World2.M[3][1] = 0.0f; World2.M[3][2] = 0.0f;		 World2.M[3][3] = 2.0f;
 
 	World3.M[0][0] = cosf(scale);  World3.M[0][1] = sinf(scale);  World3.M[0][2] = 0.0f;  World3.M[0][3] = 0.0f;
 	World3.M[1][0] = -sinf(scale);  World3.M[1][1] = cosf(scale); World3.M[1][2] = 0.0f;  World3.M[1][3] = 0.0f;
 	World3.M[2][0] = 0.0f;		   World3.M[2][1] = 0.0f;		  World3.M[2][2] = 1.0f;  World3.M[2][3] = 0.0f;
 	World3.M[3][0] = 0.0f;		   World3.M[3][1] = 0.0f;		  World3.M[3][2] = 0.0f;  World3.M[3][3] = 2.0f;
 
-	World *= World2*World3;
+	World.M[0][0] = 1.0f;		  World.M[0][1] = 0.0f;		    World.M[0][2] = 0.0f;		 World.M[0][3] = 0.0f;
+	World.M[1][0] = 0.0f;		  World.M[1][1] = 1.0f;         World.M[1][2] = 0.0f;        World.M[1][3] = 0.0f;
+	World.M[2][0] = 0.0f;		  World.M[2][1] = 0.0f;		    World.M[2][2] = 1.0f;	     World.M[2][3] = 0.0f;
+	World.M[3][0] = 0.0f;		  World.M[3][1] = 2.0f*sinf(scale);		    World.M[3][2] = 1.0f;		 World.M[3][3] = 4.0f;
+
+	Matrix viewProj = m_Camera->GetViewProj();
+	World *= viewProj;
 
 	GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
 	glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
@@ -164,8 +172,14 @@ void OpenGLRenderSystem::StartRendering()
 	SetupShaders();
 	SetupTexure();
 	SetupLights();
+	m_Camera->SetProjParameters(m_Width*1.0f / m_Height, 45, 1, 1000);
+	m_Camera->Project();
+	m_Camera->SetPosition(Vector(2.0f, 2.0f, 2.0f));
+	m_Camera->LookAt(Vector(0.0f, 0.0f, 0.0f));
 
 	m_Timer.Reset();
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
 
 	/*Loop until the user closes the window*/
 	while (!glfwWindowShouldClose(m_Window))
@@ -218,12 +232,12 @@ void OpenGLRenderSystem::SetupVertexBuffer()
 {
 	/*Vertex Buffer*/
 	Vertex Vertices[8];
-	Vertices[0] = { Vector(-1.0f, -1.0f, -1.f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) };
+	Vertices[0] = { Vector(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) };
 	Vertices[1] = { Vector(-1.0f, 1.0f, -1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f) };
 	Vertices[2] = { Vector(1.0f, 1.0f, -1.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f) };
 	Vertices[3] = { Vector(1.0f, -1.0f, -1.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f) };
 	Vertices[4] = { Vector(-1.0f, -1.0f, 1.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f) };
-	Vertices[5] = { Vector(-1.0f, 1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) };
+	Vertices[5] = { Vector(-1.0f, 1.0f, 1.0f), Vector4(1.0f, 1.0f, 0.0f, 1.0f) };
 	Vertices[6] = { Vector(1.0f, 1.0f, 1.0f), Vector4(0.0f, 1.0f, 1.0f, 1.0f) };
 	Vertices[7] = { Vector(1.0f, -1.0f, 1.0f), Vector4(1.0f, 0.0f, 1.0f, 1.0f) };
 
@@ -236,10 +250,10 @@ void OpenGLRenderSystem::SetupVertexBuffer()
 void OpenGLRenderSystem::SetupIndexBuffer()
 {
 	uint32 Indices[] = {
-		//front face
+		//back face
 		0, 1, 2,
 		0, 2, 3,
-		//back face
+		//front face
 		4, 6, 5,
 		4, 7, 6,
 		//left face
