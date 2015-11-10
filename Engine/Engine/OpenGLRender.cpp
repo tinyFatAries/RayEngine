@@ -118,31 +118,30 @@ void OpenGLRenderSystem::RenderOneFrame()
 
 	Matrix World, World2, World3;
 	
-	World.M[0][0] = 1.0f;		  World.M[0][1] = 0.0f;		    World.M[0][2] = 0.0f;		 World.M[0][3] = 0.0f;
-	World.M[1][0] = 0.0f;		  World.M[1][1] =cosf(scale);   World.M[1][2] =sinf(scale) ; World.M[1][3] = 0.0f;
-	World.M[2][0] = 0.0f;		  World.M[2][1] = -sinf(scale); World.M[2][2] = cosf(scale); World.M[2][3] = 0.0f;
-	World.M[3][0] = 0.0f;		  World.M[3][1] = 0.0f;		    World.M[3][2] = 0.0f;		 World.M[3][3] = 2.0f;
+//	World.M[0][0] = 1.0f;		  World.M[0][1] = 0.0f;		    World.M[0][2] = 0.0f;		 World.M[0][3] = 0.0f;
+//	World.M[1][0] = 0.0f;		  World.M[1][1] =cosf(scale);   World.M[1][2] =sinf(scale) ; World.M[1][3] = 0.0f;
+//	World.M[2][0] = 0.0f;		  World.M[2][1] = -sinf(scale); World.M[2][2] = cosf(scale); World.M[2][3] = 0.0f;
+//	World.M[3][0] = 0.0f;		  World.M[3][1] = 0.0f;		    World.M[3][2] = 0.0f;		 World.M[3][3] = 2.0f;
 
 	World2.M[0][0] = cosf(scale);  World2.M[0][1] = 0.0f; World2.M[0][2] = -sinf(scale); World2.M[0][3] = 0.0f;
 	World2.M[1][0] = 0.0f;	       World2.M[1][1] = 1.0f; World2.M[1][2] = 0.0f;		 World2.M[1][3] = 0.0f;
 	World2.M[2][0] = sinf(scale);  World2.M[2][1] = 0.0f; World2.M[2][2] = cosf(scale);  World2.M[2][3] = 0.0f;
 	World2.M[3][0] = 1.0f;		   World2.M[3][1] = 0.0f; World2.M[3][2] = 0.0f;		 World2.M[3][3] = 2.0f;
 
-	World3.M[0][0] = cosf(scale);  World3.M[0][1] = sinf(scale);  World3.M[0][2] = 0.0f;  World3.M[0][3] = 0.0f;
-	World3.M[1][0] = -sinf(scale);  World3.M[1][1] = cosf(scale); World3.M[1][2] = 0.0f;  World3.M[1][3] = 0.0f;
-	World3.M[2][0] = 0.0f;		   World3.M[2][1] = 0.0f;		  World3.M[2][2] = 1.0f;  World3.M[2][3] = 0.0f;
-	World3.M[3][0] = 0.0f;		   World3.M[3][1] = 0.0f;		  World3.M[3][2] = 0.0f;  World3.M[3][3] = 2.0f;
+//	World3.M[0][0] = cosf(scale);  World3.M[0][1] = sinf(scale);  World3.M[0][2] = 0.0f;  World3.M[0][3] = 0.0f;
+//	World3.M[1][0] = -sinf(scale);  World3.M[1][1] = cosf(scale); World3.M[1][2] = 0.0f;  World3.M[1][3] = 0.0f;
+//	World3.M[2][0] = 0.0f;		   World3.M[2][1] = 0.0f;		  World3.M[2][2] = 1.0f;  World3.M[2][3] = 0.0f;
+//	World3.M[3][0] = 0.0f;		   World3.M[3][1] = 0.0f;		  World3.M[3][2] = 0.0f;  World3.M[3][3] = 2.0f;
 
 	World.M[0][0] = 1.0f;		  World.M[0][1] = 0.0f;		    World.M[0][2] = 0.0f;		 World.M[0][3] = 0.0f;
 	World.M[1][0] = 0.0f;		  World.M[1][1] = 1.0f;         World.M[1][2] = 0.0f;        World.M[1][3] = 0.0f;
 	World.M[2][0] = 0.0f;		  World.M[2][1] = 0.0f;		    World.M[2][2] = 1.0f;	     World.M[2][3] = 0.0f;
-	World.M[3][0] = 0.0f;		  World.M[3][1] = 2.0f*sinf(scale);		    World.M[3][2] = 1.0f;		 World.M[3][3] = 4.0f;
+	World.M[3][0] = 1.0f;		  World.M[3][1] = 0.0f;		    World.M[3][2] = 2.0f*sinf(scale);		 World.M[3][3] = 4.0f;
 
-	Matrix viewProj = m_Camera->GetViewProj();
-	World *= viewProj;
+	World2*= World*m_Camera->GetViewProj();
 
 	GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
-	glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World.M[0][0]);
+	glUniformMatrix4fv(gWorldLocaltion, 1, GL_TRUE, &World2.M[0][0]);
 	
 	/*Render here*/
 	glEnableVertexAttribArray(0);

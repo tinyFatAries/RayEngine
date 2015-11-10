@@ -806,9 +806,9 @@ struct LookAtMatrix : Matrix
 
 FORCEINLINE LookAtMatrix::LookAtMatrix(const Vector& EyePosition, const Vector& LookAtPosition, const Vector& UpVector)
 {
-	const Vector ZAxis = (LookAtPosition - EyePosition).GetSafeNormal();
-	const Vector XAxis = (ZAxis ^ UpVector ).GetSafeNormal();
-	const Vector YAxis = XAxis ^ ZAxis;
+	const Vector ZAxis = (EyePosition-LookAtPosition).GetSafeNormal();
+	const Vector XAxis = (UpVector^ZAxis).GetSafeNormal();
+	const Vector YAxis = ZAxis^XAxis;
 
 	for (uint16 rowIndex = 0; rowIndex < 3; ++rowIndex)
 	{
@@ -817,12 +817,6 @@ FORCEINLINE LookAtMatrix::LookAtMatrix(const Vector& EyePosition, const Vector& 
 		M[rowIndex][2] = (&ZAxis.X)[rowIndex];
 		M[rowIndex][3] = 0.0f;
 	}
-
-	M[3][0] = 0.0f;
-	M[3][1] = 0.0f;
-	M[3][2] = 0.0f;
-	M[3][3] = 1.0f;
-
 
 	M[3][0] = -EyePosition | XAxis;
 	M[3][1] = -EyePosition | YAxis;
@@ -834,17 +828,18 @@ struct PerspectiveProjectMatrix : Matrix
 {
 	/**
 	* Creates a perspective projection matrix given a ratio, a fove, a near and far plane.
+	* This does the same thing as D3DXMatrixPerspectiveRH.
 	*/
 	PerspectiveProjectMatrix(float ratio, float fov, float far, float near);
 };
 
 FORCEINLINE  PerspectiveProjectMatrix::PerspectiveProjectMatrix(float ratio, float fov, float near, float far)
 {
-	const float range = far - near;
+	const float range = far-near;
 	const float tanHalfFOV = Math::Tan(Math::DegreesToRadians(fov / 2.0f));
 
 	M[0][0] = 1.0f / (tanHalfFOV * ratio);	M[0][1] = 0.0f;				 M[0][2] = 0.0f;				   M[0][3] = 0.0f;
 	M[1][0] = 0.0f;							M[1][1] = 1.0f / tanHalfFOV; M[1][2] = 0.0f;				   M[1][3] = 0.0f;
-	M[2][0] = 0.0f;							M[2][1] = 0.0f;				 M[2][2] = (near + far) / range;   M[2][3] = 1.0f;
-	M[3][0] = 0.0f;							M[3][1] = 0.0f;				 M[3][2] = -2.0f*far*near / range; M[3][3] = 0.0f;
+	M[2][0] = 0.0f;							M[2][1] = 0.0f;				 M[2][2] = (near + far) / range;   M[2][3] = -1.0f;
+	M[3][0] = 0.0f;							M[3][1] = 0.0f;				 M[3][2] = 2.0f*far*near / range;  M[3][3] = 0.0f;
 }
