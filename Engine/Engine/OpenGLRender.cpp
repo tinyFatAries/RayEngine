@@ -1,7 +1,9 @@
-#include "../Tools/RayUtils.h"
 #include "OpenGLRender.h"
 #include "Shader.h"
+#include "../Tools/RayUtils.h"
 #include "../Math/RayMath.h"
+#include "../Camera/Camera.h"
+#include "../Camera/FreeCameraController.h"
 
 #include <stdio.h>
 using namespace std;
@@ -43,7 +45,6 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 {
 	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start Resolution %d x %d...", width, height);
 	InitWindow();
-	m_Camera = new Camera();
 }
 
 /*
@@ -139,6 +140,7 @@ void OpenGLRenderSystem::RenderOneFrame()
 	World.M[2][0] = 0.0f;		  World.M[2][1] = 0.0f;		    World.M[2][2] = 1.0f;	     World.M[2][3] = 0.0f;
 	World.M[3][0] = 1.0f;		  World.M[3][1] = 0.0f;		    World.M[3][2] = 2.0f*sinf(scale);		 World.M[3][3] = 4.0f;
 
+	m_Camera->Update();
 	World2*= World*m_Camera->GetViewProj();
 
 	GLuint gWorldLocaltion = glGetUniformLocation(ShaderManager::getInstancePtr()->GetCurrentProg(), "gWorld");
@@ -172,10 +174,14 @@ void OpenGLRenderSystem::StartRendering()
 	SetupShaders();
 	SetupTexure();
 	SetupLights();
+
+	m_Camera = new Camera();
 	m_Camera->SetProjParameters(m_Width*1.0f / m_Height, 45, 1, 1000);
 	m_Camera->Project(Perspective);
 	m_Camera->SetPosition(Vector(2.0f, 2.0f, 2.0f));
 	m_Camera->LookAt(Vector(0.0f, 0.0f, 0.0f));
+	CameraController* controller = new FreeCameraController();
+	m_Camera->SetController(controller);
 
 	m_Timer.Reset();
 	glCullFace(GL_BACK);

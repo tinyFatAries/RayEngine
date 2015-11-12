@@ -5,9 +5,10 @@
 #pragma once
 #include "RenderSystem.h"
 #include "RayTimer.h"
-#include "../Camera/Camera.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+class Camera;
 
 class OpenGLRenderSystem : public RenderSystem
 {

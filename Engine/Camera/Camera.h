@@ -1,6 +1,8 @@
 #pragma once
 #include "../Math/RayMath.h"
 
+class CameraController;
+
 enum ProjectType
 {
 	Perspective,
@@ -40,7 +42,7 @@ public:
 	const Matrix GetProj() const;
 	const Matrix GetViewProj() const;
 
-	void Update();
+	void Update(float deltaTime);
 
 	void Move(Vector& vec);
 	void Pitch(const float angle);
@@ -49,8 +51,10 @@ public:
 	void Rotate(const Vector& axis, const float angle);
 	void Rotate(Quaternion& q);
 
-	void setYawFixed(bool yawFixed);
-	void setYawFixedVector(Vector& vec);
+	void SetYawFixed(bool yawFixed);
+	void SetYawFixedVector(Vector& vec);
+
+	void SetController(CameraController* camController);
 
 private:
 	Matrix m_ViewMatrix;
@@ -68,4 +72,6 @@ private:
 
 	ProjectType m_PrjType;
 	bool m_bYawFixed;
+
+	CameraController* m_Controller;
 };

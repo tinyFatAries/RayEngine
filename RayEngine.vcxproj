@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera\Camera.h" />
+    <ClInclude Include="Engine\Camera\CameraController.h" />
     <ClInclude Include="Engine\Camera\FreeCameraController.h" />
     <ClInclude Include="Engine\Config\RayConifg.h" />
     <ClInclude Include="Engine\Config\WindowPlatform.h" />

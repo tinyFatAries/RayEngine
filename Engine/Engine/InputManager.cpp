@@ -2,7 +2,10 @@
 #include "RenderSystem.h"
 #include "../Tools/RayUtils.h"
 
-template<> InputManager* Singleton<InputManager>::m_pSingleton = nullptr;
+
+/**
+ * Global functions to catch inputs
+ */
 
 void GLFWKeyPress(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
@@ -19,6 +22,13 @@ void GLFWMouseMove(GLFWwindow* pWindow, double x, double y)
 	InputManager::getInstancePtr()->HandleMouseMove(pWindow, x, y);
 }
 
+
+/**
+ * Input Manager Members definition: 
+ */
+
+template<> InputManager* Singleton<InputManager>::m_pSingleton = nullptr;
+
 InputManager::InputManager()
 {
 	GLFWwindow* window = (GLFWwindow*)RenderSystem::getInstancePtr()->getWindowHandle();
@@ -29,44 +39,39 @@ InputManager::InputManager()
 
 void InputManager::AddListener(InputListener* listener)
 {
-	Listeners.push_back(listener);
+	Listeners.insert(listener);
 }
 
 void InputManager::RemoveListener(InputListener* listener)
 {
-	for (auto itr = Listeners.begin(); itr != Listeners.end(); ++itr)
+	auto itr = Listeners.find(listener);
+	if ( itr != Listeners.end())
 	{
-		if (*itr == listener)
-		{
-			Listeners.erase(itr);
-		}
+		Listeners.erase(itr);
 	}
 }
 
 void InputManager::HandleKeyPress(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
-//	DEBUG_MESSAGE(RAY_MESSAGE, "key pressed key:%d scancode:%d action:%d mods:%d", key, scancode, action, mods);
-	for (size_t i = 0; i < Listeners.size(); ++i)
+	for (auto& listener : Listeners)
 	{
-		Listeners[i]->HandleKeyPress();
+		listener->HandleKeyPress(key, scancode, action, mods);
 	}
 }
 
 void InputManager::HandleMouseClick(GLFWwindow* pWindow, int button, int action, int mode)
 {
-	DEBUG_MESSAGE(RAY_MESSAGE, "mouse clicked button:%d action:%d mods:%d", button, action, mode);
-	for (size_t i = 0; i < Listeners.size(); ++i)
+	for (auto& listener : Listeners)
 	{
-		Listeners[i]->HandleMouseClick();
+		listener->HandleMouseClick(button, action, mode);
 	}
 }
 
 void InputManager::HandleMouseMove(GLFWwindow* pWindow, double x, double y)
 {
-	DEBUG_MESSAGE(RAY_MESSAGE, "mouse move x:%f y:%f ", x, y);
-	for (size_t i = 0; i < Listeners.size(); ++i)
+	for (auto& listener : Listeners)
 	{
-		Listeners[i]->HandleMouseClick();
+		listener->HandleMouseMove(x, y);
 	}
 }
 

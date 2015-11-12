@@ -139,6 +139,9 @@
     <ClInclude Include="Engine\Camera\FreeCameraController.h">
       <Filter>Source\Engine\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Camera\CameraController.h">
+      <Filter>Source\Engine\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\basic.fs">

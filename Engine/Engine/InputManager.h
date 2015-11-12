@@ -1,15 +1,18 @@
 #pragma once
 
 #include "Singleton.h"
-#include <vector>
+#include <set>
 #include <GLFW/glfw3.h>
 
 class InputListener
 {
 public:
-	virtual bool HandleKeyPress();
-	virtual bool HandleMouseClick();
-	virtual bool HandleMouseMove();
+	InputListener() {}
+	virtual ~InputListener() {}
+
+	virtual void HandleKeyPress(int key, int scancode, int action, int mods) {}
+	virtual void HandleMouseClick(int button, int action, int mode) {}
+	virtual void HandleMouseMove(double x, double y) {}
 };
 
 
@@ -26,5 +29,5 @@ public:
 
 
 private:
-	std::vector<InputListener*> Listeners;
+	std::set<InputListener*> Listeners;
 };

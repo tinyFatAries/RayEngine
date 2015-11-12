@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "CameraController.h"
 
 Camera::Camera()
 	: m_AspectRatio(1024.0f/768)
@@ -12,17 +13,22 @@ Camera::Camera()
 	, m_YawFixedVector(Vector::UpVector)
 	, m_PrjType(Perspective)
 	, m_bYawFixed(true)
+	, m_Controller(nullptr)
 {
 
 }
 
 Camera::~Camera()
 {
-
+	R_DELETE(m_Controller);
 }
 
-void Camera::Update()
+void Camera::Update(float deltaTime)
 {
+	if (m_Controller != nullptr)
+	{
+		m_Controller->Update(deltaTime);
+	}
 	const Vector ZAxis = (-m_Direction).GetSafeNormal();
 	const Vector XAxis = (Vector::UpVector^ZAxis).GetSafeNormal();
 	const Vector YAxis = ZAxis^XAxis;
@@ -202,4 +208,22 @@ void Camera::SetYawFixed(bool yawFixed)
 void Camera::SetYawFixedVector(Vector& vec)
 {
 	m_YawFixedVector = vec;
+}
+
+void Camera::SetController(CameraController* camController)
+{
+	if (camController == nullptr)
+	{
+		DEBUG_MESSAGE(RAY_ERROR, "the camera controller is null!");
+		return;
+	}
+
+	if (m_Controller != nullptr)
+	{
+		DEBUG_MESSAGE(RAY_EXCEPTION, "Attention! Camera should only have one controller, the old one was removed!!");
+		R_DELETE(m_Controller);
+	}
+
+	m_Controller = camController;
+	m_Controller->AttachTo(this);
 }
