@@ -21,6 +21,8 @@ public:
 	virtual void StopRendering();
 	virtual bool SetParam(int width, int height, std::string name, bool isFullSceen);
 
+	GLFWwindow* GetWindowHandler();
+
 protected:
 	virtual void RenderOneFrame();
 	virtual void CalculateFrameStats();

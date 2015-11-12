@@ -65,6 +65,12 @@
     <ClCompile Include="Engine\Camera\Camera.cpp">
       <Filter>Source\Engine\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Engine\InputManager.cpp">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera\FreeCameraController.cpp">
+      <Filter>Source\Engine\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
@@ -125,6 +131,12 @@
       <Filter>Source\Engine\Config</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Camera\Camera.h">
+      <Filter>Source\Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine\InputManager.h">
+      <Filter>Source\Engine\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\FreeCameraController.h">
       <Filter>Source\Engine\Camera</Filter>
     </ClInclude>
   </ItemGroup>

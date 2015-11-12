@@ -83,6 +83,7 @@ bool OpenGLRenderSystem::InitWindow()
 		glfwTerminate();
 		return false;
 	}
+	m_WindowHandle = (void*)m_Window;
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(m_Window);
@@ -172,7 +173,7 @@ void OpenGLRenderSystem::StartRendering()
 	SetupTexure();
 	SetupLights();
 	m_Camera->SetProjParameters(m_Width*1.0f / m_Height, 45, 1, 1000);
-	m_Camera->Project();
+	m_Camera->Project(Perspective);
 	m_Camera->SetPosition(Vector(2.0f, 2.0f, 2.0f));
 	m_Camera->LookAt(Vector(0.0f, 0.0f, 0.0f));
 
@@ -297,4 +298,9 @@ void OpenGLRenderSystem::SetupShaders()
 	shaderManager->SetPS(shaderName, shaderName);
 	shaderManager->LinkShaders(shaderName);
 	shaderManager->EnableShader(shaderName);
+}
+
+GLFWwindow* OpenGLRenderSystem::GetWindowHandler()
+{
+	return m_Window;
 }

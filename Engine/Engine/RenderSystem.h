@@ -51,9 +51,15 @@ public:
 		return m_SysName;
 	}
 
+	const void* getWindowHandle()
+	{
+		return m_WindowHandle;
+	}
+
 protected:
 	RenderType m_RenderType;
 	std::string m_SysName;
+	void* m_WindowHandle;
 };
 
 

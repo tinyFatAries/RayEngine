@@ -6,9 +6,12 @@ Camera::Camera()
 	, m_Far(1000)
 	, m_FOV(60)
 	, m_Position(Vector(0,0,0))
-	, m_Target(Vector(0, 0, 1))
 	, m_Direction(Vector(0, 0, 1))
+	, m_Right(Vector(-1, 0, 0))
+	, m_Up(Vector(0, 1, 0))
+	, m_YawFixedVector(Vector::UpVector)
 	, m_PrjType(Perspective)
+	, m_bYawFixed(true)
 {
 
 }
@@ -20,6 +23,25 @@ Camera::~Camera()
 
 void Camera::Update()
 {
+	const Vector ZAxis = (-m_Direction).GetSafeNormal();
+	const Vector XAxis = (Vector::UpVector^ZAxis).GetSafeNormal();
+	const Vector YAxis = ZAxis^XAxis;
+	m_Direction.Normalize();
+	m_Right = XAxis;
+	m_Up = YAxis;
+
+	for (uint16 rowIndex = 0; rowIndex < 3; ++rowIndex)
+	{
+		m_ViewMatrix.M[rowIndex][0] = (&XAxis.X)[rowIndex];
+		m_ViewMatrix.M[rowIndex][1] = (&YAxis.X)[rowIndex];
+		m_ViewMatrix.M[rowIndex][2] = (&ZAxis.X)[rowIndex];
+		m_ViewMatrix.M[rowIndex][3] = 0.0f;
+	}
+
+	m_ViewMatrix.M[3][0] = -m_Position | XAxis;
+	m_ViewMatrix.M[3][1] = -m_Position | YAxis;
+	m_ViewMatrix.M[3][2] = -m_Position | ZAxis;
+	m_ViewMatrix.M[3][3] = 1.0f;
 }
 
 void Camera::SetPosition(Vector& pos)
@@ -97,11 +119,10 @@ const Matrix Camera::GetViewProj() const
 
 void Camera::LookAt(Vector& pos)
 {
-	m_Target = pos;
-	m_ViewMatrix = LookAtMatrix(m_Position, m_Target, Vector::UpVector);
+	m_ViewMatrix = LookAtMatrix(m_Position, pos, Vector::UpVector);
 }
 
-void Camera::Project()
+void Camera::Project(ProjectType type)
 {
 	// Perspective projection
 	if (m_PrjType == Perspective)
@@ -116,11 +137,69 @@ void Camera::Project()
 	}
 }
 
+const Vector Camera::GetFoward()
+{
+	return m_Direction;
+}
 
+const Vector Camera::GetRight()
+{
+	return m_Right;
+}
 
+const Vector Camera::GetUp()
+{
+	return m_Up;
+}
 
+void Camera::Move(Vector& vec)
+{
+	m_Position += vec;
+	Update();
+}
 
+void Camera::Pitch(const float angle)
+{
+	Rotate(m_Right, angle);
+}
 
+void Camera::Yaw(const float angle)
+{
+	Vector yawAxis;
+	if (m_bYawFixed)
+	{
+		yawAxis = m_YawFixedVector;
+	}
+	else
+	{
+		yawAxis = m_Up;
+	}
+	Rotate(yawAxis, angle);
+}
 
+void Camera::Roll(const float angle)
+{
+	Rotate(m_Direction, angle);
+}
 
+void Camera::Rotate(const Vector& axis, const float angle)
+{
+	Quaternion q(axis, angle);
+	Rotate(q);
+}
 
+void Camera::Rotate(Quaternion& q)
+{
+	m_Direction = q.RotateVector(m_Direction);
+	Update();
+}
+
+void Camera::SetYawFixed(bool yawFixed)
+{
+	m_bYawFixed = yawFixed;
+}
+
+void Camera::SetYawFixedVector(Vector& vec)
+{
+	m_YawFixedVector = vec;
+}

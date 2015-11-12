@@ -12,3 +12,7 @@
 #endif
 #endif
 
+enum RayKey
+{
+
+};

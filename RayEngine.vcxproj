@@ -84,7 +84,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Camera\Camera.cpp" />
+    <ClCompile Include="Engine\Camera\FreeCameraController.cpp" />
     <ClCompile Include="Engine\Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Engine\InputManager.cpp" />
     <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="Engine\Engine\RayTimer.cpp" />
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
@@ -94,9 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera\Camera.h" />
+    <ClInclude Include="Engine\Camera\FreeCameraController.h" />
     <ClInclude Include="Engine\Config\RayConifg.h" />
     <ClInclude Include="Engine\Config\WindowPlatform.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />
+    <ClInclude Include="Engine\Engine\InputManager.h" />
     <ClInclude Include="Engine\Engine\OpenGLRender.h" />
     <ClInclude Include="Engine\Engine\RayTimer.h" />
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
