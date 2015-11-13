@@ -13,6 +13,7 @@ Camera::Camera()
 	, m_YawFixedVector(Vector::UpVector)
 	, m_PrjType(Perspective)
 	, m_bYawFixed(true)
+	, m_bValideView(false)
 	, m_Controller(nullptr)
 {
 
@@ -29,25 +30,31 @@ void Camera::Update(float deltaTime)
 	{
 		m_Controller->Update(deltaTime);
 	}
-	const Vector ZAxis = (-m_Direction).GetSafeNormal();
-	const Vector XAxis = (Vector::UpVector^ZAxis).GetSafeNormal();
-	const Vector YAxis = ZAxis^XAxis;
-	m_Direction.Normalize();
-	m_Right = XAxis;
-	m_Up = YAxis;
 
-	for (uint16 rowIndex = 0; rowIndex < 3; ++rowIndex)
+	if (!m_bValideView)
 	{
-		m_ViewMatrix.M[rowIndex][0] = (&XAxis.X)[rowIndex];
-		m_ViewMatrix.M[rowIndex][1] = (&YAxis.X)[rowIndex];
-		m_ViewMatrix.M[rowIndex][2] = (&ZAxis.X)[rowIndex];
-		m_ViewMatrix.M[rowIndex][3] = 0.0f;
-	}
+		const Vector ZAxis = (-m_Direction).GetSafeNormal();
+		const Vector XAxis = (Vector::UpVector^ZAxis).GetSafeNormal();
+		const Vector YAxis = ZAxis^XAxis;
+		m_Direction.Normalize();
+		m_Right = XAxis;
+		m_Up = YAxis;
 
-	m_ViewMatrix.M[3][0] = -m_Position | XAxis;
-	m_ViewMatrix.M[3][1] = -m_Position | YAxis;
-	m_ViewMatrix.M[3][2] = -m_Position | ZAxis;
-	m_ViewMatrix.M[3][3] = 1.0f;
+		for (uint16 rowIndex = 0; rowIndex < 3; ++rowIndex)
+		{
+			m_ViewMatrix.M[rowIndex][0] = (&XAxis.X)[rowIndex];
+			m_ViewMatrix.M[rowIndex][1] = (&YAxis.X)[rowIndex];
+			m_ViewMatrix.M[rowIndex][2] = (&ZAxis.X)[rowIndex];
+			m_ViewMatrix.M[rowIndex][3] = 0.0f;
+		}
+
+		m_ViewMatrix.M[3][0] = -m_Position | XAxis;
+		m_ViewMatrix.M[3][1] = -m_Position | YAxis;
+		m_ViewMatrix.M[3][2] = -m_Position | ZAxis;
+		m_ViewMatrix.M[3][3] = 1.0f;
+
+		m_bValideView = true;
+	}
 }
 
 void Camera::SetPosition(Vector& pos)
@@ -125,6 +132,7 @@ const Matrix Camera::GetViewProj() const
 
 void Camera::LookAt(Vector& pos)
 {
+	m_Direction = pos - m_Position;
 	m_ViewMatrix = LookAtMatrix(m_Position, pos, Vector::UpVector);
 }
 
@@ -161,7 +169,7 @@ const Vector Camera::GetUp()
 void Camera::Move(Vector& vec)
 {
 	m_Position += vec;
-	Update();
+	InvalidateView();
 }
 
 void Camera::Pitch(const float angle)
@@ -197,7 +205,7 @@ void Camera::Rotate(const Vector& axis, const float angle)
 void Camera::Rotate(Quaternion& q)
 {
 	m_Direction = q.RotateVector(m_Direction);
-	Update();
+	InvalidateView();
 }
 
 void Camera::SetYawFixed(bool yawFixed)
@@ -226,4 +234,9 @@ void Camera::SetController(CameraController* camController)
 
 	m_Controller = camController;
 	m_Controller->AttachTo(this);
+}
+
+void Camera::InvalidateView()
+{
+	m_bValideView = false;
 }

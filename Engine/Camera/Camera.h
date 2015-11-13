@@ -56,6 +56,7 @@ public:
 
 	void SetController(CameraController* camController);
 
+	void InvalidateView();
 private:
 	Matrix m_ViewMatrix;
 	Matrix m_ProjMatrix;
@@ -73,5 +74,7 @@ private:
 	ProjectType m_PrjType;
 	bool m_bYawFixed;
 
+	bool m_bValideView;
 	CameraController* m_Controller;
+
 };

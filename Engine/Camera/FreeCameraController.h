@@ -1,6 +1,13 @@
 #pragma once
 
 #include "CameraController.h"
+#include "../Math/RayMath.h"
+
+struct MouseCoord
+{
+	float x;
+	float y;
+};
 
 class FreeCameraController : public CameraController 
 {
@@ -15,14 +22,20 @@ public:
 	virtual void Update(float deltaTime);
 
 private:
+	//Movement controll
 	bool m_bMoveFoward;
 	bool m_bMoveBack;
 	bool m_bMoveLeft;
 	bool m_bMoveRight;
 	bool m_bMoveUp;
 	bool m_bMoveDown;
+	bool m_bFastMove;
 
-	float m_Speed;
+	Vector m_Velocity;
 	float m_AccSpeed;
 	float m_MaxSpeed;
+
+	//Rotation controll
+	bool m_bMouseMove;
+	MouseCoord m_CurPos, m_LastPos;
 };
