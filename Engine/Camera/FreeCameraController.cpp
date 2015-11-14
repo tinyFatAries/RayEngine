@@ -28,7 +28,7 @@ FreeCameraController::~FreeCameraController()
 
 void FreeCameraController::HandleKeyPress(int key, int scancode, int action, int mods)
 {
-	DEBUG_MESSAGE(RAY_MESSAGE, "key pressed key:%d scancode:%d action:%d mods:%d", key, scancode, action, mods);
+	//DEBUG_MESSAGE(RAY_MESSAGE, "key pressed key:%d scancode:%d action:%d mods:%d", key, scancode, action, mods);
 	switch (key)
 	{
 	case GLFW_KEY_W:
@@ -59,7 +59,7 @@ void FreeCameraController::HandleKeyPress(int key, int scancode, int action, int
 
 void FreeCameraController::HandleMouseClick(int button, int action, int mode)
 {
-	DEBUG_MESSAGE(RAY_MESSAGE, "mouse clicked button:%d action:%d mods:%d", button, action, mode);
+	//DEBUG_MESSAGE(RAY_MESSAGE, "mouse clicked button:%d action:%d mods:%d", button, action, mode);
 	switch (button)
 	{
 	case GLFW_MOUSE_BUTTON_RIGHT:

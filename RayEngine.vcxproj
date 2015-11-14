@@ -116,6 +116,7 @@
     <ClInclude Include="Engine\Math\RayMathDirectX.h" />
     <ClInclude Include="Engine\Math\Rotator.h" />
     <ClInclude Include="Engine\Math\Vector.h" />
+    <ClInclude Include="Engine\Math\Vector2D.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Tools\RayUtils.h" />
   </ItemGroup>
