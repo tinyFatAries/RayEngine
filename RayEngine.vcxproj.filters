@@ -39,6 +39,12 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{68b71e02-84a1-4f04-8357-9938d1acd87e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\RenderSystem">
+      <UniqueIdentifier>{360427da-7544-42ae-8c92-f4196d33f2c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\RenderSystem\OpenGL">
+      <UniqueIdentifier>{33260d4f-9351-4698-b47e-b095d3b5ea10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,17 +53,11 @@
     <ClCompile Include="Engine\Engine\Engine.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Engine\OpenGLRender.cpp">
-      <Filter>Source\Engine\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Engine\RenderSystem.cpp">
       <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\RayMath.cpp">
       <Filter>Source\Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Engine\Shader.cpp">
-      <Filter>Source\Engine\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Engine\RayTimer.cpp">
       <Filter>Source\Engine\Engine</Filter>
@@ -71,18 +71,18 @@
     <ClCompile Include="Engine\Camera\FreeCameraController.cpp">
       <Filter>Source\Engine\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\RenderSystem\OpenGL\OpenGLRender.cpp">
+      <Filter>Source\Engine\RenderSystem\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\RenderSystem\OpenGL\OpenGLShader.cpp">
+      <Filter>Source\Engine\RenderSystem\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine\Engine.h">
       <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine\RenderSystem.h">
-      <Filter>Source\Engine\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Engine\OpenGLRender.h">
-      <Filter>Source\Engine\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Engine\Singleton.h">
       <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Tools\RayUtils.h">
@@ -99,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\RayMath.h">
       <Filter>Source\Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Engine\Shader.h">
-      <Filter>Source\Engine\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Matrix.h">
       <Filter>Source\Engine\Math</Filter>
@@ -144,6 +141,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector2D.h">
       <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RenderSystem\OpenGL\OpenGLRender.h">
+      <Filter>Source\Engine\RenderSystem\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Tools\Singleton.h">
+      <Filter>Source\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\RenderSystem\OpenGL\OpenGLShader.h">
+      <Filter>Source\Engine\RenderSystem\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

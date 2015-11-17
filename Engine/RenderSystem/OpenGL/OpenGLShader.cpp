@@ -1,5 +1,5 @@
-#include "Shader.h"
-#include "../Tools/RayUtils.h"
+#include "OpenGLShader.h"
+#include "../../Tools/RayUtils.h"
 
 #include <fstream>
 using namespace std;

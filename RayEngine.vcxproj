@@ -87,11 +87,11 @@
     <ClCompile Include="Engine\Camera\FreeCameraController.cpp" />
     <ClCompile Include="Engine\Engine\Engine.cpp" />
     <ClCompile Include="Engine\Engine\InputManager.cpp" />
-    <ClCompile Include="Engine\Engine\OpenGLRender.cpp" />
     <ClCompile Include="Engine\Engine\RayTimer.cpp" />
     <ClCompile Include="Engine\Engine\RenderSystem.cpp" />
-    <ClCompile Include="Engine\Engine\Shader.cpp" />
     <ClCompile Include="Engine\Math\RayMath.cpp" />
+    <ClCompile Include="Engine\RenderSystem\OpenGL\OpenGLRender.cpp" />
+    <ClCompile Include="Engine\RenderSystem\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +102,8 @@
     <ClInclude Include="Engine\Config\WindowPlatform.h" />
     <ClInclude Include="Engine\Engine\Engine.h" />
     <ClInclude Include="Engine\Engine\InputManager.h" />
-    <ClInclude Include="Engine\Engine\OpenGLRender.h" />
     <ClInclude Include="Engine\Engine\RayTimer.h" />
     <ClInclude Include="Engine\Engine\RenderSystem.h" />
-    <ClInclude Include="Engine\Engine\Shader.h" />
-    <ClInclude Include="Engine\Engine\Singleton.h" />
     <ClInclude Include="Engine\Math\Axis.h" />
     <ClInclude Include="Engine\Math\MathUtility.h" />
     <ClInclude Include="Engine\Math\Matrix.h" />
@@ -118,7 +115,10 @@
     <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Math\Vector2D.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
+    <ClInclude Include="Engine\RenderSystem\OpenGL\OpenGLRender.h" />
+    <ClInclude Include="Engine\RenderSystem\OpenGL\OpenGLShader.h" />
     <ClInclude Include="Engine\Tools\RayUtils.h" />
+    <ClInclude Include="Engine\Tools\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\basic.fs" />

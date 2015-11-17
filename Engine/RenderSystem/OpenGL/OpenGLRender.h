@@ -3,12 +3,13 @@
 //=============================================================================================
 
 #pragma once
-#include "RenderSystem.h"
-#include "RayTimer.h"
+#include "../../Engine/RenderSystem.h"
+#include "../../Engine/RayTimer.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 class Camera;
+class ShaderManager;
 
 class OpenGLRenderSystem : public RenderSystem
 {
@@ -49,5 +50,7 @@ private:
 	GLuint VBO, IBO;
 
 	Camera *m_Camera;
+
+	ShaderManager* m_ShaderManager;
 };
 

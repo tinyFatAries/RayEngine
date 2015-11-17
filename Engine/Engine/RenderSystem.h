@@ -3,7 +3,7 @@
 //=============================================================================================
 
 #pragma once
-#include "Singleton.h"
+#include "../Tools/Singleton.h"
 #include <string>
 
 enum RenderType 

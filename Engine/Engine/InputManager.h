@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Singleton.h"
+#include "../Tools/Singleton.h"
 #include <set>
 #include <GLFW/glfw3.h>
 

@@ -3,10 +3,9 @@
 //===========================================================================
 
 #pragma once
-#include <assert.h>
 #include <string>
 #include <map>
-#include "Singleton.h"
+#include "../../Tools/Singleton.h"
 
 //opengl
 #include <GL/glew.h>

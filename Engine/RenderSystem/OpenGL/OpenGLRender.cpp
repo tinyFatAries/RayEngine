@@ -1,9 +1,9 @@
 #include "OpenGLRender.h"
-#include "Shader.h"
-#include "../Tools/RayUtils.h"
-#include "../Math/RayMath.h"
-#include "../Camera/Camera.h"
-#include "../Camera/FreeCameraController.h"
+#include "OpenGLShader.h"
+#include "../../Tools/RayUtils.h"
+#include "../../Math/RayMath.h"
+#include "../../Camera/Camera.h"
+#include "../../Camera/FreeCameraController.h"
 
 #include <stdio.h>
 using namespace std;
@@ -28,6 +28,7 @@ OpenGLRenderSystem::OpenGLRenderSystem()
 {
 	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start...");
 	InitWindow();
+	m_ShaderManager = new ShaderManager();
 }
 
 /**
@@ -45,6 +46,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 {
 	DEBUG_MESSAGE(RAY_MESSAGE, "OpenGL RenderSystem Start Resolution %d x %d...", width, height);
 	InitWindow();
+	m_ShaderManager = new ShaderManager();
 }
 
 /*
@@ -52,6 +54,7 @@ OpenGLRenderSystem::OpenGLRenderSystem(int width, int height, string name, bool 
 */
 OpenGLRenderSystem::~OpenGLRenderSystem()
 {
+	R_DELETE(m_ShaderManager);
 	R_DELETE(m_Camera);
 	DEBUG_MESSAGE(RAY_MESSAGE, "Unload OpenGL RenderSystem...");
 }

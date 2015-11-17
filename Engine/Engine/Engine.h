@@ -29,7 +29,6 @@ public:
 private:
 	bool m_bInitialized;
 	RenderSystem* m_RenderSystem;
-	ShaderManager* m_ShaderManager;
 	InputManager* m_InputManager;
 };
 
